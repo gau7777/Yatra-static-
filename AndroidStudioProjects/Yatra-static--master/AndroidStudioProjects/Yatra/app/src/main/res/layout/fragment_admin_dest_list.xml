@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminDestListActivityFragment"
+    tools:showIn="@layout/activity_admin_dest_list"
+    android:orientation="vertical"
+    android:background="@drawable/travelbackground">
+
+    <Button
+        android:id="@+id/AddDestinationbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text= "Click here to add destinations"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold|italic"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DESTINATIONS"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/AdminDestList"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+
+</LinearLayout>

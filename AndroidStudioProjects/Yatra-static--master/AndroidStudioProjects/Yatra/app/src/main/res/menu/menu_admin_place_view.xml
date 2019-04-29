@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.yatra.AdminPlaceViewActivity">
+    <item
+        android:id="@+id/RefreshPlaceItem"
+        android:icon="@android:drawable/presence_away"
+        android:orderInCategory="100"
+        android:title="Add Place"
+        app:showAsAction="ifRoom" />
+</menu>
