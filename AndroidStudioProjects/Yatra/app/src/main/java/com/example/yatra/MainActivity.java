@@ -1,6 +1,9 @@
 package com.example.yatra;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,12 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    Button Admin;
+    AppDatabase mydb;
+    GuestPlaceListAdapter GP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,42 +34,54 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mydb = new AppDatabase(this);
+
+        Admin = (Button) findViewById(R.id.Adminbutton);
+
+        GP = new GuestPlaceListAdapter(this, generateData());
+
         final ListView listView = (ListView) findViewById(R.id.GuestPlaceList);
 
-        ArrayList<String> GPlaceList = new ArrayList<>();
-
-        GPlaceList.add("Haridwar");
-        GPlaceList.add("Amritsar");
-
-        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, GPlaceList);
-        listView.setAdapter(listAdapter);
+        listView.setAdapter(GP);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               String txt = listView.getItemAtPosition(position).toString();
-               Intent intent = new Intent(MainActivity.this, GuestDestListActivity.class);
-               intent.putExtra("ListItemText", txt);
-               startActivity(intent);
+//               String txt = listView.getItemAtPosition(position).toString();
+//               Intent intent = new Intent(MainActivity.this, GuestDestListActivity.class);
+//               intent.putExtra("ListItemText", txt);
+//               startActivity(intent);
             }
         });
+
+        Admin.setOnClickListener(this);
+    }
+
+    private ArrayList<GuestPlace> generateData() {
+        Cursor cursor = mydb.getPlace();
+        ArrayList<GuestPlace> items = new ArrayList<GuestPlace>();
+        if(cursor.getCount() == 0){
+            Toast.makeText(MainActivity.this, "Sorry, Empty Places", Toast.LENGTH_LONG).show();
+        }else {
+            while (cursor.moveToNext()) {
+                items.add(new GuestPlace(cursor.getString(1), cursor.getString(2), convertToBitmap(cursor.getBlob(4))));
+            }
+        }
+        return items;
+    }
+
+    private Bitmap convertToBitmap(byte[] b) {
+        return BitmapFactory.decodeByteArray(b, 0, b.length);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id){
-            case R.id.admin_item:
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.Adminbutton:
                 Intent intent = new Intent(MainActivity.this, AdminLoginActivity.class);
                 startActivity(intent);
-                break;
+
         }
-        return super.onOptionsItemSelected(item);
     }
+
 }

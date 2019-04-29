@@ -1,6 +1,7 @@
 package com.example.yatra;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,15 +12,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class AdminPlaceViewActivity extends AppCompatActivity implements AdminPlaceListAdapter.customButtonListener{
 
     AdminPlaceListAdapter adapter;
+    Button AddPlace;
+    AppDatabase mydb;
 //    ImageButton edit, del;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,10 @@ public class AdminPlaceViewActivity extends AppCompatActivity implements AdminPl
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        AddPlace = (Button) findViewById(R.id.AddPlacebutton);
+
+        mydb = new AppDatabase(this);
+
         adapter = new AdminPlaceListAdapter(this, generateData());
 
         final ListView listView = (ListView) findViewById(R.id.AdminPlaceList);
@@ -35,8 +44,8 @@ public class AdminPlaceViewActivity extends AppCompatActivity implements AdminPl
 //        final ImageButton edit = (ImageButton) findViewById(R.id.EditimageButton);
 //       final ImageButton del = (ImageButton) findViewById(R.id.DeleteimageButton);
         adapter.setCustomButtonListner(this);
+        adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
-        listView.setFocusable(false);
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -47,12 +56,38 @@ public class AdminPlaceViewActivity extends AppCompatActivity implements AdminPl
 //            }
 //        });
 
+        AddPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminPlaceViewActivity.this, AddPlaceActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
     public void onButtonClickListner(int position) {
-        Intent intent = new Intent(AdminPlaceViewActivity.this, EditPlaceActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(AdminPlaceViewActivity.this, EditPlaceActivity.class);
+//        startActivity(intent);
+    }
+
+    @Override
+    public void onButtonClickListner2(int position) {
+
+    }
+
+    private ArrayList<AdminPlaces> generateData() {
+        Cursor cursor = mydb.getPlace();
+        ArrayList<AdminPlaces> items = new ArrayList<AdminPlaces>();
+        if(cursor.getCount() == 0){
+            Toast.makeText(AdminPlaceViewActivity.this, "Sorry, Empty Places, Please Add Places", Toast.LENGTH_LONG).show();
+        }else {
+            while (cursor.moveToNext()) {
+                items.add(new AdminPlaces(cursor.getString(1), R.id.EditimageButton, R.id.DeleteimageButton));
+            }
+        }
+        return items;
     }
 
     @Override
@@ -64,20 +99,13 @@ public class AdminPlaceViewActivity extends AppCompatActivity implements AdminPl
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id){
-            case R.id.AddPlaceItem:
-                Intent intent = new Intent(AdminPlaceViewActivity.this, AddPlaceActivity.class);
+        switch(id){
+            case R.id.RefreshPlaceItem:
+                Intent intent = new Intent(this, AdminPlaceViewActivity.class);
                 startActivity(intent);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private ArrayList<AdminPlaces> generateData() {
-        ArrayList<AdminPlaces> items = new ArrayList<AdminPlaces>();
-        items.add(new AdminPlaces("Haridwar", R.id.EditimageButton, R.id.DeleteimageButton));
-        items.add(new AdminPlaces("Amritsar", R.id.EditimageButton, R.id.DeleteimageButton));
-        return items;
-    }
-
 }

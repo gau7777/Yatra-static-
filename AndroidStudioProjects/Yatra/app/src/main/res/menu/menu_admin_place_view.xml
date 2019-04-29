@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.yatra.AdminPlaceViewActivity">
     <item
-        android:id="@+id/AddPlaceItem"
+        android:id="@+id/RefreshPlaceItem"
+        android:icon="@android:drawable/presence_away"
         android:orderInCategory="100"
         android:title="Add Place"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>

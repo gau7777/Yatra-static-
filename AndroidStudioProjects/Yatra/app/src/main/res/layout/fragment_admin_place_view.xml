@@ -9,6 +9,15 @@
     android:orientation="vertical"
     android:background="@drawable/travelbackground">
 
+    <Button
+        android:id="@+id/AddPlacebutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text= "Click here to add place"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold|italic"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

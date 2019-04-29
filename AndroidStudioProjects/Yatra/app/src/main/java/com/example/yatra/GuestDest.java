@@ -1,12 +1,14 @@
 package com.example.yatra;
 
+import android.graphics.Bitmap;
+
 public class GuestDest {
 
     private String mName;
     private String mDes;
-    private int imageId;
+    private Bitmap imageId;
 
-    public GuestDest(int imageId, String mName, String mDes) {
+    public GuestDest(String mName, String mDes, Bitmap imageId) {
         this.imageId = imageId;
         this.mName = mName;
         this.mDes = mDes;
@@ -29,11 +31,11 @@ public class GuestDest {
         this.mDes = mDes;
     }
 
-    public int getImageId() {
+    public Bitmap getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(Bitmap imageId) {
         this.imageId = imageId;
     }
 

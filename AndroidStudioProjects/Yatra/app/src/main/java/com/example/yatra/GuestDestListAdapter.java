@@ -30,7 +30,7 @@ public class GuestDestListAdapter extends ArrayAdapter<GuestDest> {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         // 1. Create inflater
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,9 +46,18 @@ public class GuestDestListAdapter extends ArrayAdapter<GuestDest> {
         // 4. Set the text for textView
         labelView.setText(itemList.get(position).getmName());
         valueView.setText(itemList.get(position).getmDes());
-        imageView.setImageResource(itemList.get(position).getImageId());
+        imageView.setImageBitmap(itemList.get(position).getImageId());
 
         tt = labelView.getText().toString();
+
+//        rowView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(parent.getContext(), GuestDestDetailsActivity.class);
+//                intent.putExtra("DText", itemList.get(position).getmName());
+//                getContext().startActivity(intent);
+//            }
+//        });
 
 //        Intent intent = new Intent();
 //        intent.putExtra("Text", tt);
