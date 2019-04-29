@@ -88,7 +88,8 @@ public class AdminPlaceListAdapter extends ArrayAdapter<AdminPlaces> {
                     public void onClick(DialogInterface dialog, int which) {
                         mydb = new AppDatabase(parent.getContext());
                         int del = mydb.deletePlace(labelView.getText().toString());
-                        if(del > 0){
+                        int del2 = mydb.deletePlaceDest(labelView.getText().toString());
+                        if(del > 0 && del2>0){
                             Toast.makeText(parent.getContext(), "Deleted", Toast.LENGTH_LONG).show();
                             AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
                             builder.setTitle(labelView.getText().toString() + "Deletion complete");

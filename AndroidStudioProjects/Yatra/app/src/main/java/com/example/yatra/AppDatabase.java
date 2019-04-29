@@ -97,6 +97,11 @@ public class AppDatabase extends SQLiteOpenHelper {
         return db.delete(DestContract.TABLE_NAME, DestContract.Columns.Dest_Name + "= ?", new String[] { DName });
     }
 
+    public int deletePlaceDest(String DPName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(DestContract.TABLE_NAME, DestContract.Columns.DestPlace_Name + "= ?", new String[] { DPName });
+    }
+
     public Cursor getPlace(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + PlaceContract.TABLE_NAME, null);
